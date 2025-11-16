@@ -2,8 +2,9 @@
 
 const compareImages = require("../compareImages");
 const fs = require("fs");
+const path = require("path");
 const util = require("util");
-const readFile = util.promisify(fs.readFile);
+const readFile = async (file) => util.promisify(fs.readFile)(path.resolve(__dirname, "..", file));
 
 describe("compareImages", () => {
     test("Buffers data", async () => {
@@ -34,7 +35,7 @@ describe("compareImages", () => {
 
     test("throws when failed", async () => {
         const promise = compareImages(fs.readFileSync("./demoassets/People.jpg"), "bogus data");
-        await expect(promise).rejects.toMatch("Failed to load image 'bogus data'. Error: ENOENT, No such file or directory 'bogus data'");
+        await expect(promise).rejects.toMatch("Failed to load image 'bogus data'. Error: No such file or directory");
     });
 
     test("throws when invalid image format", async () => {

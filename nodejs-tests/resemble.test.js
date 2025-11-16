@@ -2,11 +2,13 @@
 
 const resemble = require("../resemble");
 const fs = require("fs");
+const path = require("path");
+const readFileSync = (file) => fs.readFileSync(path.resolve(__dirname, "..", file));
 
 describe("resemble", () => {
     test("base64", () => {
-        const peopleSrc = `data:image/jpeg;base64,${fs.readFileSync("./demoassets/People.jpg", "base64")}`;
-        const people2Src = `data:image/jpeg;base64,${fs.readFileSync("./demoassets/People2.jpg", "base64")}`;
+        const peopleSrc = `data:image/jpeg;base64,${readFileSync("./demoassets/People.jpg", "base64")}`;
+        const people2Src = `data:image/jpeg;base64,${readFileSync("./demoassets/People2.jpg", "base64")}`;
 
         return new Promise((resolve) => {
             resemble(peopleSrc)
@@ -65,8 +67,8 @@ describe("resemble", () => {
         }));
 
     test("node buffers jpg", () => {
-        const people = fs.readFileSync("./demoassets/People.jpg");
-        const people2 = fs.readFileSync("./demoassets/People2.jpg");
+        const people = readFileSync("./demoassets/People.jpg");
+        const people2 = readFileSync("./demoassets/People2.jpg");
 
         return new Promise((resolve) => {
             resemble(people)
@@ -86,8 +88,8 @@ describe("resemble", () => {
     });
 
     test("node buffers png", () => {
-        const people = fs.readFileSync("./demoassets/ghost1.png");
-        const people2 = fs.readFileSync("./demoassets/ghost2.png");
+        const people = readFileSync("./demoassets/ghost1.png");
+        const people2 = readFileSync("./demoassets/ghost2.png");
 
         return new Promise((resolve) => {
             resemble(people)
@@ -107,8 +109,8 @@ describe("resemble", () => {
     });
 
     test("partial diff with single bounding box", () => {
-        const people = fs.readFileSync("./demoassets/ghost1.png");
-        const people2 = fs.readFileSync("./demoassets/ghost2.png");
+        const people = readFileSync("./demoassets/ghost1.png");
+        const people2 = readFileSync("./demoassets/ghost2.png");
 
         return new Promise((resolve) => {
             resemble.outputSettings({
@@ -130,8 +132,8 @@ describe("resemble", () => {
     });
 
     test("error pixel color", () => {
-        const people = fs.readFileSync("./demoassets/ghost1.png");
-        const people2 = fs.readFileSync("./demoassets/ghost2.png");
+        const people = readFileSync("./demoassets/ghost1.png");
+        const people2 = readFileSync("./demoassets/ghost2.png");
 
         return new Promise((resolve) => {
             resemble.outputSettings({
@@ -150,7 +152,7 @@ describe("resemble", () => {
                     expect(buffer).toBeInstanceOf(Buffer);
                     expect(buffer.length).toBe(9391);
 
-                    const comparison = fs.readFileSync("./nodejs-tests/assets/pixelErrorColorTest.png");
+                    const comparison = readFileSync("./nodejs-tests/assets/pixelErrorColorTest.png");
                     expect(buffer.equals(comparison)).toBe(true);
                     resolve();
                 });
@@ -158,8 +160,8 @@ describe("resemble", () => {
     });
 
     test("partial diff with bounding boxes", () => {
-        const people = fs.readFileSync("./nodejs-tests/assets/text.png");
-        const people2 = fs.readFileSync("./nodejs-tests/assets/textAa.png");
+        const people = readFileSync("./nodejs-tests/assets/text.png");
+        const people2 = readFileSync("./nodejs-tests/assets/textAa.png");
 
         return new Promise((resolve) => {
             resemble.outputSettings({
@@ -190,8 +192,8 @@ describe("resemble", () => {
     });
 
     test("partial diff with ignored boxes", () => {
-        const people = fs.readFileSync("./nodejs-tests/assets/text.png");
-        const people2 = fs.readFileSync("./nodejs-tests/assets/textAa.png");
+        const people = readFileSync("./nodejs-tests/assets/text.png");
+        const people2 = readFileSync("./nodejs-tests/assets/textAa.png");
 
         return new Promise((resolve) => {
             resemble.outputSettings({
@@ -221,8 +223,8 @@ describe("resemble", () => {
     });
 
     test("partial diff with single ignored box", () => {
-        const people = fs.readFileSync("./nodejs-tests/assets/text.png");
-        const people2 = fs.readFileSync("./nodejs-tests/assets/textAa.png");
+        const people = readFileSync("./nodejs-tests/assets/text.png");
+        const people2 = readFileSync("./nodejs-tests/assets/textAa.png");
 
         return new Promise((resolve) => {
             resemble.outputSettings({
@@ -244,8 +246,8 @@ describe("resemble", () => {
     });
 
     test("returns early", () => {
-        const people = fs.readFileSync("./nodejs-tests/assets/text.png");
-        const people2 = fs.readFileSync("./nodejs-tests/assets/textAa.png");
+        const people = readFileSync("./nodejs-tests/assets/text.png");
+        const people2 = readFileSync("./nodejs-tests/assets/textAa.png");
 
         return new Promise((resolve) => {
             resemble(people)
@@ -259,8 +261,8 @@ describe("resemble", () => {
     });
 
     test("partial diff with ignored color", () => {
-        const peopleSrc = `data:image/jpeg;base64,${fs.readFileSync("./nodejs-tests/assets/PeopleWithIgnoreMask.png", "base64")}`;
-        const people2Src = `data:image/jpeg;base64,${fs.readFileSync("./demoassets/People2.jpg", "base64")}`;
+        const peopleSrc = `data:image/jpeg;base64,${readFileSync("./nodejs-tests/assets/PeopleWithIgnoreMask.png", "base64")}`;
+        const people2Src = `data:image/jpeg;base64,${readFileSync("./demoassets/People2.jpg", "base64")}`;
 
         return new Promise((resolve) => {
             resemble.outputSettings({
@@ -276,7 +278,7 @@ describe("resemble", () => {
                 .compareTo(peopleSrc)
                 .onComplete((data) => {
                     const buffer = data.getBuffer();
-                    const comparison = fs.readFileSync("./nodejs-tests/assets/ignoredColorTestResult.png");
+                    const comparison = readFileSync("./nodejs-tests/assets/ignoredColorTestResult.png");
                     expect(buffer.equals(comparison)).toBe(true);
                     resolve();
                 });
