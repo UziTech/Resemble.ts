@@ -1,21 +1,21 @@
-$(function() {
+$(function () {
     var $target = $("#drop-zone");
 
     function dropZone($target, onDrop) {
         $target
-            .bind("dragover", function() {
+            .bind("dragover", function () {
                 $target.addClass("drag-over");
                 return false;
             })
-            .bind("dragend", function() {
+            .bind("dragend", function () {
                 $target.removeClass("drag-over");
                 return false;
             })
-            .bind("dragleave", function() {
+            .bind("dragleave", function () {
                 $target.removeClass("drag-over");
                 return false;
             })
-            .bind("drop", function(event) {
+            .bind("drop", function (event) {
                 var file = event.originalEvent.dataTransfer.files[0];
 
                 event.stopPropagation();
@@ -26,7 +26,7 @@ $(function() {
                 var droppedImage = new Image();
                 var fileReader = new FileReader();
 
-                fileReader.onload = function(event) {
+                fileReader.onload = function (event) {
                     droppedImage.src = event.target.result;
                     $target.html(droppedImage);
                 };
@@ -37,8 +37,8 @@ $(function() {
             });
     }
 
-    dropZone($target, function(file) {
-        resemble(file).onComplete(function(data) {
+    dropZone($target, function (file) {
+        resemble(file).onComplete(function (data) {
             $("#image-data").show();
             $("#red").css("width", data.red + "%");
             $("#green").css("width", data.green + "%");
@@ -57,7 +57,7 @@ $(function() {
 
         $("#image-diff").html(diffImage);
 
-        $(diffImage).click(function() {
+        $(diffImage).click(function () {
             var w = window.open("about:blank", "_blank");
             var html = w.document.documentElement;
             var body = w.document.body;
@@ -71,9 +71,8 @@ $(function() {
             img.src = diffImage.src;
             img.alt = "image diff";
             img.style.maxWidth = "100%";
-            img.addEventListener("click", function() {
-                this.style.maxWidth =
-                    this.style.maxWidth === "100%" ? "" : "100%";
+            img.addEventListener("click", function () {
+                this.style.maxWidth = this.style.maxWidth === "100%" ? "" : "100%";
             });
             body.appendChild(img);
         });
@@ -99,33 +98,26 @@ $(function() {
     var file2;
     var resembleControl;
 
-    dropZone($("#dropzone1"), function(file) {
+    dropZone($("#dropzone1"), function (file) {
         file1 = file;
         if (file2) {
-            resembleControl = resemble(file)
-                .compareTo(file2)
-                .onComplete(onComplete);
+            resembleControl = resemble(file).compareTo(file2).onComplete(onComplete);
         }
     });
 
-    dropZone($("#dropzone2"), function(file) {
+    dropZone($("#dropzone2"), function (file) {
         file2 = file;
         if (file1) {
-            resembleControl = resemble(file)
-                .compareTo(file1)
-                .onComplete(onComplete);
+            resembleControl = resemble(file).compareTo(file1).onComplete(onComplete);
         }
     });
 
     var buttons = $(".buttons button");
 
-    buttons.click(function() {
+    buttons.click(function () {
         var $this = $(this);
 
-        $this
-            .parent(".buttons")
-            .find("button")
-            .removeClass("active");
+        $this.parent(".buttons").find("button").removeClass("active");
         $this.addClass("active");
 
         if ($this.is("#raw")) {
@@ -244,7 +236,7 @@ $(function() {
         }
     });
 
-    (function() {
+    (function () {
         var xhr = new XMLHttpRequest();
         var xhr2 = new XMLHttpRequest();
         var xhr3 = new XMLHttpRequest();
@@ -254,57 +246,49 @@ $(function() {
 
         xhr.open("GET", "demoassets/People.jpg", true);
         xhr.responseType = "blob";
-        xhr.onload = function(e) {
+        xhr.onload = function (e) {
             done.resolve(this.response);
         };
         xhr.send();
 
         xhr2.open("GET", "demoassets/People2.jpg", true);
         xhr2.responseType = "blob";
-        xhr2.onload = function(e) {
+        xhr2.onload = function (e) {
             dtwo.resolve(this.response);
         };
         xhr2.send();
 
         xhr3.open("GET", "demoassets/PeopleAlpha.png", true);
         xhr3.responseType = "blob";
-        xhr3.onload = function(e) {
+        xhr3.onload = function (e) {
             dthree.resolve(this.response);
         };
         xhr3.send();
 
-        $("#example-images").click(function() {
+        $("#example-images").click(function () {
             $("#dropzone1").html('<img src="demoassets/People.jpg"/>');
             $("#dropzone2").html('<img src="demoassets/People2.jpg"/>');
 
-            $.when(done, dtwo).done(function(file, file1) {
+            $.when(done, dtwo).done(function (file, file1) {
                 if (typeof FileReader === "undefined") {
-                    resembleControl = resemble("demoassets/People.jpg")
-                        .compareTo("demoassets/People2.jpg")
-                        .onComplete(onComplete);
+                    resembleControl = resemble("demoassets/People.jpg").compareTo("demoassets/People2.jpg").onComplete(onComplete);
                 } else {
-                    resembleControl = resemble(file)
-                        .compareTo(file1)
-                        .onComplete(onComplete);
+                    resembleControl = resemble(file).compareTo(file1).onComplete(onComplete);
                 }
             });
 
             return false;
         });
 
-        $("#example-images-alpha").click(function() {
+        $("#example-images-alpha").click(function () {
             $("#dropzone1").html('<img src="demoassets/People.jpg"/>');
             $("#dropzone2").html('<img src="demoassets/PeopleAlpha.png"/>');
 
-            $.when(done, dthree).done(function(file, file1) {
+            $.when(done, dthree).done(function (file, file1) {
                 if (typeof FileReader === "undefined") {
-                    resembleControl = resemble("demoassets/People.jpg")
-                        .compareTo("demoassets/PeopleAlpha.png")
-                        .onComplete(onComplete);
+                    resembleControl = resemble("demoassets/People.jpg").compareTo("demoassets/PeopleAlpha.png").onComplete(onComplete);
                 } else {
-                    resembleControl = resemble(file)
-                        .compareTo(file1)
-                        .onComplete(onComplete);
+                    resembleControl = resemble(file).compareTo(file1).onComplete(onComplete);
                 }
             });
 
