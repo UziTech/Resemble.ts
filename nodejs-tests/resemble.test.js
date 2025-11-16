@@ -59,9 +59,7 @@ describe("resemble", () => {
             resemble("../demoassets/People.jpg")
                 .compareTo("../demoassets/404-image.jpg")
                 .onComplete((data) => {
-                    expect(data.error).toEqual(
-                        "Failed to load image '../demoassets/People.jpg'. Error: No such file or directory"
-                    );
+                    expect(data.error).toEqual("Failed to load image '../demoassets/People.jpg'. Error: No such file or directory");
                     resolve();
                 });
         }));
