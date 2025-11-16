@@ -3,7 +3,7 @@
 const resemble = require("../resemble");
 const fs = require("fs");
 const path = require("path");
-const readFileSync = (file) => fs.readFileSync(path.resolve(__dirname, "..", file));
+const readFileSync = (file, encoding) => fs.readFileSync(path.resolve(__dirname, "..", file), encoding);
 
 describe("resemble", () => {
     test("base64", () => {
@@ -60,7 +60,7 @@ describe("resemble", () => {
                 .compareTo("../demoassets/404-image.jpg")
                 .onComplete((data) => {
                     expect(data.error).toEqual(
-                        "Failed to load image '../demoassets/People.jpg'. Error: ENOENT, No such file or directory '../demoassets/People.jpg'"
+                        "Failed to load image '../demoassets/People.jpg'. Error: No such file or directory"
                     );
                     resolve();
                 });
