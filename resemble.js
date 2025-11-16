@@ -28,7 +28,7 @@ var getGlobalThis = function () {
             },
             configurable: true
         });
-    } catch (error) {
+    } catch {
         return naiveFallback();
     }
     try {

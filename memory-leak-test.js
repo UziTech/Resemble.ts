@@ -31,5 +31,5 @@ function compare() {
 
 function log() {
     console.timeEnd(timerLabel);
-    process.exit(0); //eslint-disable-line
+    process.exit(0);
 }
